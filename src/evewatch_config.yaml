@@ -1,0 +1,36 @@
+items:
+  - item_name: "Veldspar"
+    item_id: 
+    item_type: "Ores"
+  - item_name: "Scordite"
+    item_id: 
+    item_type: "Ores"
+  - item_name: "Plagioclase"
+    item_id: 
+    item_type: "Ores"
+  - item_name: "Pyroxeres"
+    item_id: 
+    item_type: "Ores"
+  - item_name: "Tritanium"
+    item_id: 
+    item_type: "Minerals"
+  - item_name: "Mexallon"
+    item_id: 
+    item_type: "Minerals"
+  - item_name: "Pyerite"
+    item_id: 
+    item_type: "Minerals"
+  - item_name: "Nocxium"
+    item_id: 
+    item_type: "Minerals"
+
+marketHistory:
+  - regions:
+    - region_name: "The Forge"
+      region_id: 
+    - region_name: "Metropolis"
+      region_id:
+
+timestamp_label: true          # Creates time series with traffic timestamp as label
+
+traffic_timestamp: true        # Create time series with traffic timestamp. Default: true
