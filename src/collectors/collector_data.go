@@ -82,6 +82,7 @@ type MarketHistoryConfig struct {
 }
 
 // UnmarshalYAML implements the yaml.Unmarshaler interface.
+/*
 func (p *MarketHistoryConfig) UnmarshalYAML(unmarshal func(interface{}) error) error {
 	*p = defaultMarketHistoryConfig
 	type plain MarketHistoryConfig
@@ -95,3 +96,4 @@ func (p *MarketHistoryConfig) UnmarshalYAML(unmarshal func(interface{}) error) e
 
 	return nil
 }
+*/
