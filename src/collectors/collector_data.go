@@ -26,21 +26,20 @@ const (
 
 var (
 	defaultItemConfig          = ItemConfig{}
-	defaultMarketHistoryConfig = MarketHistoryConfig{
-		Properties: make([]string, 0),
+	defaultMarketHistoryConfig = MarketHistoryConfig{}
+	DefaultEveSIExporter       = EveSIExporter{
+		Items:         make([]*ItemConfig, 0),
+		MarketHistory: make([]*MarketHistoryConfig, 0),
 	}
-	DefaultEveWatch = EveWatch
 )
 
-type EveWatch struct {
-	Name        string                     `yaml:"domain_name"`
-	Properties  []*TrafficPropertyConfig   `yaml:"properties,omitempty"`
-	Datacenters []*TrafficDatacenterConfig `yaml:"datacenters,omitempty"`
-	Liveness    []*LivenessTestConfig      `yaml:"liveness_tests,omitempty"`
+type EveSIExporter struct {
+	Items         []*ItemConfig          `yaml:"properties,omitempty"`
+	MarketHistory []*MarketHistoryConfig `yaml:"datacenters,omitempty"`
 }
 
 // UnmarshalYAML implements the yaml.Unmarshaler interface.
-func (c *DomainTraffic) UnmarshalYAML(unmarshal func(interface{}) error) error {
+func (c *EveSIExporter) UnmarshalYAML(unmarshal func(interface{}) error) error {
 	*c = DefaultDomainTraffic
 	type plain DomainTraffic
 	if err := unmarshal((*plain)(c)); err != nil {
@@ -57,74 +56,42 @@ func (c *DomainTraffic) UnmarshalYAML(unmarshal func(interface{}) error) error {
 	return nil
 }
 
-type TrafficPropertyConfig struct {
-	Name          string   `yaml:"property_name"`
-	DatacenterIDs []int    `yaml:"datacenter,omitempty"`
-	DCNicknames   []string `yaml:"dc_nickname,omitempty"`
-	Targets       []string `yaml:"target_name,omitempty"`
+type ItemConfig struct {
+	Name   string `yaml:"item_name"`
+	ItemID []int  `yaml:"item,omitempty"`
 }
 
 // UnmarshalYAML implements the yaml.Unmarshaler interface.
-func (p *TrafficPropertyConfig) UnmarshalYAML(unmarshal func(interface{}) error) error {
-	*p = defaultTrafficPropertyConfig
-	type plain TrafficPropertyConfig
+func (p *ItemConfig) UnmarshalYAML(unmarshal func(interface{}) error) error {
+	*p = defaultItemConfig
+	type plain ItemConfig
 	if err := unmarshal((*plain)(p)); err != nil {
 		return err
 	}
-	log.Debugf("Property: [%v]", *p)
+	log.Debugf("Item: [%v]", *p)
 	if p.Name == "" {
-		return errors.New("required property name is empty")
+		return errors.New("required Item name is empty")
 	}
 
 	return nil
 }
 
-type TrafficDatacenterConfig struct {
-	DatacenterID int      `yaml:"datacenter_id"` // Required
-	Properties   []string `yaml:"property,omitempty"`
+type MarketHistoryConfig struct {
+	RegionName []string `yaml:"region_name"`
+	RegionID   []int    `yaml:"region_id,omitempty"`
 }
 
 // UnmarshalYAML implements the yaml.Unmarshaler interface.
-func (d *TrafficDatacenterConfig) UnmarshalYAML(unmarshal func(interface{}) error) error {
-	*d = defaultTrafficDatacenterConfig
-	type plain TrafficDatacenterConfig
-	if err := unmarshal((*plain)(d)); err != nil {
-		return err
-	}
-	log.Debugf("Datacenter: [%v]", *d)
-	if d.DatacenterID == 0 {
-		return errors.New("required datacenter id is not set")
-	}
-
-	return nil
-}
-
-type LivenessTestConfig struct {
-	PropertyName string `yaml:"property_name"`
-	AgentIP      string `yaml:"agent_ip,omitempty"`
-	TargetIP     string `yaml:"target_ip,omitempty"`
-	ErrorCode    bool   `yaml:"track_by_errorcode"`
-	Duration     bool   `yaml:"duration_sum"`
-}
-
-// UnmarshalYAML implements the yaml.Unmarshaler interface.
-func (p *LivenessTestConfig) UnmarshalYAML(unmarshal func(interface{}) error) error {
-	*p = defaultLivenessTestConfig
-	type plain LivenessTestConfig
+func (p *MarketHistoryConfig) UnmarshalYAML(unmarshal func(interface{}) error) error {
+	*p = defaultMarketHistoryConfig
+	type plain MarketHistoryConfig
 	if err := unmarshal((*plain)(p)); err != nil {
 		return err
 	}
-	log.Debugf("Liveness test: [%v]", *p)
-	if p.PropertyName == "" {
-		return errors.New("required property name is empty")
+	log.Debugf("Region: [%v]", *p)
+	if p.RegionName[] == "" {
+		return errors.New("required region name is empty")
 	}
 
 	return nil
-}
-
-// Exporter config
-type EveWatchConfig struct {
-	EveWatches   []*EveWatch `yaml:"evewatches"`
-	TSLabel      bool        `yaml:"timestamp_label"`             // Creates time series with traffic timestamp as label
-	UseTimestamp *bool       `yaml:"traffic_timestamp,omitempty"` // Create time series with traffic timestamp
 }

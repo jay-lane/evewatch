@@ -30,7 +30,7 @@ const (
 )
 
 var (
-	configFile           = kingpin.Flag("config.file", "GTM Metrics exporter configuration file. Default: ./gtm_metrics_config.yml").Default("evewatch_config.yml").String()
+	configFile           = kingpin.Flag("config.file", "Evewatch Config Default: ./evewatch_config.yml").Default("evewatch_config.yml").String()
 
 	// invalidMetricChars    = regexp.MustCompile("[^a-zA-Z0-9_:]")
 	lookbackDuration = lookbackDefaultDuration
