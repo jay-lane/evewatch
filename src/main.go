@@ -1,7 +1,7 @@
 package main
 
 import (
-	collectors "command-line-argumentsE:\\Working\\github\\jay-lane\\evewatch\\src\\collectors\\collector_data.go"
+	collectors "github.com/jay-lane/evewatch/collectors"
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"github.com/prometheus/common/log"
